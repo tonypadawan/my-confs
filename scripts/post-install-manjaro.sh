@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Install tools in Manjaro OS
 
 #variables
@@ -14,9 +15,12 @@ echo "Update system"
 sudo pacman-mirrors -c United_States 
 yay -Syu --noconfirm 
 
+# Remove packages
+yay -Rs --noconfirm firefox 
+
 #install tools
 
-yay -S --noconfirm brightnessctl qemu-desktop libvirt edk2-ovmf virt-manager tmux the_silver_searcher musikcube-bin feh kitty flatpak neovim docker docker-compose wxwidgets-gtk3 base-devel unixodbc fop unzip restic nftables ufw getnf
+yay -S --noconfirm brightnessctl qemu-desktop libvirt edk2-ovmf virt-manager tmux the_silver_searcher musikcube-bin feh kitty flatpak neovim docker docker-compose wxwidgets-gtk3 base-devel unixodbc fop unzip restic nftables ufw getnf sddm 
 
 
 #Install virtualbox
@@ -31,7 +35,9 @@ fi
 
 unset kernelv
 
+
 #install asdf
+
 
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
 echo . "$HOME/.asdf/asdf.sh" >> $HOME/.bashrc 
@@ -55,7 +61,7 @@ unset languages[*]
 
 LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
 
-echo export PATH=$PATH:$HOME/.local/bin && source $HOME/.zshrc
+echo export PATH=$PATH:$HOME/.local/bin >> $HOME/.zshrc && source $HOME/.zshrc
 
 # Install nerdfonts
 
@@ -70,6 +76,19 @@ do
 done
 
 unset apps[*]
+
+# Groups
+sudo usermod -aG docker $USER
+
+# Enable services
+sudo systemctl enable --force sddm.service
+sudo systemctl enable --now nftables
+sudo systemctl enable --now ufw
+
+# Firewall
+sudo ufw default deny
+sudo ufw enable
+
 
 echo "System Ready! Please reboot"
 
