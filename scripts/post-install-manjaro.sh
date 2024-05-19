@@ -8,7 +8,7 @@ kernelv=`mhwd-kernel -li | grep -m 1 -o "linux[1-9]*"`
 languages=(nodejs python rust ruby erlang elixir)
 
 apps=(com.brave.Browser org.mozilla.firefox org.gnome.Boxes org.gimp.GIMP com.obsproject.Studio org.telegram.desktop com.github.tchx84.Flatseal org.onlyoffice.desktopeditors
-org.videolan.VLC io.dbeaver.DBeaverCommunity com.discordapp.Discord io.beekeeperstudio.Studio org.zealdocs.Zeal net.agalwood.Motrix org.kde.gwenview )
+org.videolan.VLC io.dbeaver.DBeaverCommunity com.discordapp.Discord io.beekeeperstudio.Studio org.zealdocs.Zeal net.agalwood.Motrix org.kde.gwenview flathub org.kde.dolphin )
 
 echo "Update system"
 
@@ -20,7 +20,7 @@ yay -Rs --noconfirm firefox
 
 #install tools
 
-yay -S --noconfirm brightnessctl qemu-desktop libvirt edk2-ovmf virt-manager tmux the_silver_searcher musikcube-bin feh kitty flatpak neovim docker docker-compose wxwidgets-gtk3 base-devel unixodbc fop unzip restic nftables ufw getnf sddm 
+yay -S --noconfirm brightnessctl qemu-desktop libvirt edk2-ovmf virt-manager tmux the_silver_searcher musikcube-bin feh kitty flatpak neovim docker docker-compose wxwidgets-gtk3 ncurses libpng glu libssh libxslt base-devel unixodbc fop unzip restic nftables ufw getnf sddm 
 
 
 #Install virtualbox
@@ -70,7 +70,7 @@ getnf
 
 # Install applications
 
-for ((counter=0; counter < 15; counter++))
+for ((counter=0; counter < 16; counter++))
 do
   flatpak install -y ${apps[counter]}
 done
@@ -88,6 +88,10 @@ sudo systemctl enable --now ufw
 # Firewall
 sudo ufw default deny
 sudo ufw enable
+
+# Alter attributes 
+sudo chattr +C /var/log/ 
+
 
 
 echo "System Ready! Please reboot"
